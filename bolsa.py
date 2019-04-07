@@ -5,7 +5,7 @@ import re
 exchange_name = 'BOLSADEVALORES'
 
 
-def enviar_notificacoes(topicos):
+def enviar_notificacoes(topicos: list[str]):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
