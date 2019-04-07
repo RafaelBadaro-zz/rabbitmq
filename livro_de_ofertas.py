@@ -1,5 +1,5 @@
 import pika
-# import sys
+import sys
 
 
 class Ativo:
@@ -9,7 +9,8 @@ class Ativo:
         self.atv_principal = atv_principal
 
     def __repr__(self):
-        return f"\nNome do Pregão: {self.nome_pregao},\nCódigo: {self.cod},\nAtividade Principal: {self.atv_principal}\n"
+        return f"\nNome do Pregão: {self.nome_pregao},\nCódigo: {self.cod},\nAtividade Principal: {self.atv_principal}"\
+               f"\n"
 
 
 def carrega_ativos():
