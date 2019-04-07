@@ -1,55 +1,40 @@
 import pika
 import sys
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-channel = connection.channel()
-
-channel.exchange_declare(exchange='topic_logs', exchange_type='topic')
+exchange_name = 'BOLSADEVALORES'
 
 
-def fila_broker():
-    print("Rodando fila BROKER")
-    result = channel.queue_declare('BROKER', exclusive=True)
-    queue_name = 'BROKER'
+def enviar_notificacoes(operacao, acao):
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    channel = connection.channel()
 
-    binding_keys = sys.argv[1:]
-    if not binding_keys:
-        sys.stderr.write("Escreva a operacao e a acao que se deseja escutar : <operacao.acao>, lembre-se de colocar o *\n")
-        sys.exit(1)
+    channel.exchange_declare(exchange=exchange_name, exchange_type='topic')
 
-    for binding_key in binding_keys:
-        channel.queue_bind(exchange='topic_logs', queue=queue_name, routing_key=binding_key)
+    rota = '<' + operacao + '.' + acao + '>'
+    mensagem = rota #TODO - adicionar a mensagem
 
-    print(' [] Waiting for logs. To exit press CTRL+C')
+    channel.basic_publish(exchange= exchange_name, routing_key=mensagem, body=mensagem)
 
-    channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
+    print(" [x] Enviado %r:%r" % mensagem)
 
-    channel.start_consuming()
+    connection.close()
+
+
+def receber_operacoes():
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    channel = connection.channel()
+
+    channel.queueDeclare("BROKER", True, False, False, None)
+    print("[*] Recebendo operacoes . Para sair pressione CTRL+C'")
+
+
+    channel.basic_consume(queue='BROKER', on_message_callback=callback)
 
 
 def callback(ch, method, properties, body):
     print(" [x] %r:%r" % (method.routing_key, body))
+    #TODO - chamar um metodo para realizar a operacao
 
 
-# Canal que serve como pub
-def fila_bolsa():
-    print("Rodando fila BOLSA")
-    result = channel.queue_declare('BOLSA', exclusive=True)
-    queue_name = 'BOLSA'
 
-    binding_keys = sys.argv[1:]
-    if not binding_keys:
-        sys.stderr.write("Escreva a operacao e a acao que se deseja escutar : <operacao.acao>...\n")
-        sys.exit(1)
 
-    for binding_key in binding_keys:
-        channel.queue_bind(
-            exchange='topic_logs', queue=queue_name, routing_key=binding_key)
-
-    print(' [] Waiting for logs. To exit press CTRL+C')
-
-    channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
-
-    channel.start_consuming()
-
-fila_broker()

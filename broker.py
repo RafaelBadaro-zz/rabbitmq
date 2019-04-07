@@ -14,12 +14,12 @@ def realiza_operacao(operacao, acao, quant, val, corretora):
     mensagem = rota + ':' + '<quant: ' + quant + ', val: ' + val + ', corretora:' + corretora + '>'
 
     channel.basic_publish(exchange='', routing_key='BROKER', body=mensagem)
-    print(" [x] Enviado %r:%r" % mensagem)
+    print(" [x] Enviado %r" % mensagem)
 
     connection.close()
 
 
-def realiza_info(data , acao):
+def realiza_info(data, acao):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
