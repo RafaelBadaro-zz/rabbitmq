@@ -4,32 +4,17 @@ import  sys
 exchange_name = 'BOLSADEVALORES'
 
 
-def realiza_operacao(operacao, acao, quant, val, corretora):
+def realiza_operacao(operacao):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
     channel.queue_declare('BROKER', True, False, False, None)
 
-    rota = '<' + operacao + '.' + acao + '>'
-    mensagem = rota + ':' + '<quant:' + quant + ',val:' + val + ',corretora:' + corretora + '>'
+    rota = operacao[0]
+    mensagem = rota + operacao[1]
 
     channel.basic_publish(exchange='', routing_key='BROKER', body=mensagem)
     print(" [x] Enviado %r" % mensagem)
-
-    connection.close()
-
-
-def realiza_info(data, acao):
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    channel = connection.channel()
-
-    channel.queue_declare('BROKER', True, False, False, None)
-
-    rota = '<' + 'info.' + acao + '>'
-    mensagem = rota + ':' + '<' + data + '>'
-
-    channel.basic_publish(exchange='', routing_key='BROKER', body=mensagem)
-    print(" [x] Enviado %r:%r" % mensagem)
 
     connection.close()
 
