@@ -1,5 +1,5 @@
 import pika
-import sys
+# import sys
 
 
 class Ativo:
