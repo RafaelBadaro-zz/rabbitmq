@@ -11,7 +11,7 @@ def realiza_operacao(operacao, acao, quant, val, corretora):
     channel.queue_declare('BROKER', True, False, False, None)
 
     rota = '<' + operacao + '.' + acao + '>'
-    mensagem = rota + ':' + '<quant: ' + quant + ', val: ' + val + ', corretora:' + corretora + '>'
+    mensagem = rota + ':' + '<quant:' + quant + ',val:' + val + ',corretora:' + corretora + '>'
 
     channel.basic_publish(exchange='', routing_key='BROKER', body=mensagem)
     print(" [x] Enviado %r" % mensagem)
