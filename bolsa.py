@@ -5,18 +5,18 @@ import re
 exchange_name = 'BOLSADEVALORES'
 
 
-def enviar_notificacoes(operacao, acao):
+def enviar_notificacoes(topicos):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
     channel.exchange_declare(exchange=exchange_name, exchange_type='topic')
 
-    rota = '<' + operacao + '.' + acao + '>'
-    mensagem = rota #TODO - adicionar a mensagem
+    rota = topicos[0] # operacao.acao
+    mensagem = topicos[1] # quant;val;corretora
 
-    channel.basic_publish(exchange= exchange_name, routing_key=mensagem, body=mensagem)
+    channel.basic_publish(exchange=exchange_name, routing_key=rota, body=mensagem)
 
-    print(" [x] Enviado %r:%r" % mensagem)
+    print(" [x] Enviado %r:%r" % rota, mensagem)
 
     connection.close()
 
@@ -38,7 +38,7 @@ def callback(ch, method, properties, body):
 
 def tratar_msg(mensagem: str):
     #TODO - formtar para double
-    
+
     msg_formatada = formata_msg(mensagem)
 
     operacao = msg_formatada[0]
