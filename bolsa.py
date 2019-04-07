@@ -48,10 +48,6 @@ def tratar_msg(mensagem: str):
     corretora = msg_formatada[7]
 
 
-
-
-
-
 def formata_msg(mensagem: str):
     nomes = re.compile('\W').split(mensagem)
 
@@ -62,4 +58,4 @@ def formata_msg(mensagem: str):
         if s == '':
             nomes.remove(s)
 
-    return nomes;
+    return nomes
