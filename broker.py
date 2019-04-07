@@ -1,7 +1,12 @@
 import pika
-import  sys
+import sys
 
 exchange_name = 'BOLSADEVALORES'
+
+
+# def compra(int quant, val real, char[] corretora)
+# def venda(int quant, val real, char[] corretora)
+# def info(char[] data)
 
 
 def realiza_operacao(operacao):
@@ -24,7 +29,7 @@ def receber_notificacoes():
     channel = connection.channel()
     channel.exchange_declare(exchange=exchange_name, exchange_type='topic')
 
-    result = channel.queue_declare('',exclusive=True)
+    result = channel.queue_declare('', exclusive=True)
     queue_name = result.method.queue
 
     binding_keys = sys.argv[1:]
@@ -40,10 +45,8 @@ def receber_notificacoes():
 
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
-    #TODO - chamar um channel.start_consuming()
-
+    # TODO - chamar um channel.start_consuming()
 
 
 def callback(ch, method, properties, body):
     print(" [x] %r:%r" % (method.routing_key, body))
-
