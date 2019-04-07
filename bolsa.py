@@ -14,7 +14,7 @@ def fila_broker():
 
     binding_keys = sys.argv[1:]
     if not binding_keys:
-        sys.stderr.write("Escreva a operacao e a acao que se deseja escutar : <operacao.acao>...\n")
+        sys.stderr.write("Escreva a operacao e a acao que se deseja escutar : <operacao.acao>, lembre-se de colocar o *\n")
         sys.exit(1)
 
     for binding_key in binding_keys:
@@ -51,3 +51,5 @@ def fila_bolsa():
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
     channel.start_consuming()
+
+fila_broker()
