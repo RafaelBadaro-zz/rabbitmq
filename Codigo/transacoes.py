@@ -1,4 +1,4 @@
-import bolsa
+from Codigo import bolsa
 
 transacoes = []
 
