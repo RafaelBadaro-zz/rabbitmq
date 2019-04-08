@@ -17,13 +17,15 @@ def realiza_operacao(operacao):
     channel.queue_declare('BROKER', True, False, False, None)
 
     rota = operacao[0]
-    mensagem = rota + '-' + operacao[1]
+    mensagem = rota + '-' + montar_conteudo(operacao)
 
     channel.basic_publish(exchange='', routing_key='BROKER', body=mensagem)
     print(" [x] Enviado %r" % mensagem)
 
     connection.close()
 
+def montar_conteudo(operacao):
+        return operacao[1] +';'+ operacao[2] +';'+operacao[3]
 
 def receber_notificacoes():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
