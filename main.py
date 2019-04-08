@@ -42,6 +42,5 @@ while(opcao != "0"):
     elif(opcao == "4"):
         codigo = input("Digite o código da ação que deseja monitorar")
 
-        
     else:
         print("Opção inválida, digite uma opção válida")
