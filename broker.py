@@ -2,6 +2,7 @@ import pika
 import sys
 
 exchange_name = 'BOLSADEVALORES'
+name = "BROKER"
 
 
 # def compra(int quant, val real, char[] corretora)

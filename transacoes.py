@@ -1,6 +1,7 @@
 import bolsa
 
-transacoes = [str]
+transacoes = []
+
 
 def ler_transacao(data: str, acao: str):
     retorno = ""
@@ -22,5 +23,5 @@ def enviar_transacao(transacao: str):
 
 
 def gravar_transacao (transacao: str):
-    transacoes.insert(transacao)
+    transacoes.append(transacao)
     enviar_transacao(transacao)
