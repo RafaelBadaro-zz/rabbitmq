@@ -11,7 +11,7 @@ def enviar_notificacoes(topicos: list[str]):
 
     channel.exchange_declare(exchange=exchange_name, exchange_type='topic')
 
-    rota = topicos[0] # operacao.acao
+    rota = topicos[0]  # operacao.acao
     mensagem = topicos[1] # quant;val;corretora
 
     channel.basic_publish(exchange=exchange_name, routing_key=rota, body=mensagem)
@@ -32,11 +32,22 @@ def receber_operacoes():
 
 
 def callback(ch, method, properties, body):
-    print(" [x] %r:%r" % (method.routing_key, body))
-    tratar_msg(body)
+    print(" [x] Chegou: %r:%r" % (method.routing_key, body))
+
+    topico: list[str] = body.split('-')
+
+    try:
+        if topico[0].__contains__('info'):
+               # realizar operacao de info
+        else:
+            try:
+                enviar_notificacoes(topico)
+            except Exception as e:
+                print(e)
 
 
-#def tratar_msg(mensagem: str):
 
+# salvar as operacoes feitas
+def salvar_operacao():
 
 
