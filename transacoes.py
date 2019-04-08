@@ -14,7 +14,6 @@ def ler_transacao(data: str, acao: str):
     return retorno
 
 
-
 def enviar_transacao(transacao: str):
     aux = transacao.split(";")
     mensagem = aux[2] + ";" + aux[3]

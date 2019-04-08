@@ -38,16 +38,17 @@ def callback(ch, method, properties, body):
 
     try:
         if topico[0].__contains__('info'):
-               # realizar operacao de info
+            # realizar operacao de info
+            pass
         else:
             try:
                 enviar_notificacoes(topico)
             except Exception as e:
                 print(e)
-
+            finally:
+                pass
 
 
 # salvar as operacoes feitas
 def salvar_operacao():
-
-
+    pass
