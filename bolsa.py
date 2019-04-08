@@ -39,19 +39,25 @@ def callback(ch, method, properties, body):
 
     topico: list[str] = body.split('-')
 
-    try:
-        if topico[0].__contains__('info'):
-            # realizar operacao de info
-            pass
-        else:
-            try:
-                enviar_notificacoes(topico)
-            except Exception as e:
-                print(e)
-            finally:
-                pass
+    if topico[0].__contains__('info'):
+        realizar_info(topico[0], topico[1])
+        pass
+    else:
+        try:
+            enviar_notificacoes(topico)
+        except Exception as e:
+            print(e)
+        salvar_operacao(topico[0], topico[1])
 
 
 # salvar as operacoes feitas
-def salvar_operacao():
-    pass
+def salvar_operacao(operacao_acao: str, oferta: str):
+
+    operacao = operacao_acao + ';' + oferta
+    #TODO - chamar operacao para salvar no livro de ofertas
+
+def realizar_info(operacao_acao: str, data:str):
+    consulta = operacao_acao + data
+
+    #TODO - chamar operacao para consultar no livro de ofertas
+

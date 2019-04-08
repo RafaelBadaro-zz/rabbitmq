@@ -24,8 +24,10 @@ def realiza_operacao(operacao):
 
     connection.close()
 
+
 def montar_conteudo(operacao):
         return operacao[1] +';'+ operacao[2] +';'+operacao[3]
+
 
 def receber_notificacoes():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
